@@ -191,3 +191,60 @@ BOOTPROTO=static
 BONDING_OPTS="mode=1 miimon=100 fail_over_mac=1"
 GATEWAY=10.10.1.1
 ```
+как видно, что активным интерфесом на обоих роутерах выбран eth1, для удобства монитринга запустим ping в текстовый файлик. И выключим eth1 на inetRouter.
+```ruby
+[root@inetRouter vagrant]# ping 10.10.1.2 >ping_test.txt
+```
+выключим eth1 на inetRouter
+```ruby
+[root@inetRouter vagrant]# ip link set eth1 down
+[root@inetRouter vagrant]# cat /proc/net/bonding/bond0
+Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
+
+Bonding Mode: fault-tolerance (active-backup) (fail_over_mac active)
+Primary Slave: None
+Currently Active Slave: eth2
+MII Status: up
+MII Polling Interval (ms): 100
+Up Delay (ms): 0
+Down Delay (ms): 0
+
+Slave Interface: eth1
+MII Status: down
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 1
+Permanent HW addr: 08:00:27:7e:8f:a5
+Slave queue ID: 0
+
+Slave Interface: eth2
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 08:00:27:eb:e6:d6
+Slave queue ID: 0
+```
+проверим наш файлик
+
+```ruby
+[root@inetRouter vagrant]# cat ping_test.txt
+PING 10.10.1.2 (10.10.1.2) 56(84) bytes of data.
+64 bytes from 10.10.1.2: icmp_seq=1 ttl=64 time=0.436 ms
+64 bytes from 10.10.1.2: icmp_seq=2 ttl=64 time=0.455 ms
+64 bytes from 10.10.1.2: icmp_seq=3 ttl=64 time=0.457 ms
+64 bytes from 10.10.1.2: icmp_seq=4 ttl=64 time=0.475 ms
+64 bytes from 10.10.1.2: icmp_seq=5 ttl=64 time=0.438 ms
+64 bytes from 10.10.1.2: icmp_seq=6 ttl=64 time=0.431 ms
+64 bytes from 10.10.1.2: icmp_seq=7 ttl=64 time=0.431 ms
+64 bytes from 10.10.1.2: icmp_seq=8 ttl=64 time=0.435 ms
+64 bytes from 10.10.1.2: icmp_seq=9 ttl=64 time=0.460 ms
+64 bytes from 10.10.1.2: icmp_seq=10 ttl=64 time=0.454 ms
+
+--- 10.10.1.2 ping statistics ---
+10 packets transmitted, 10 received, 0% packet loss, time 9003ms
+rtt min/avg/max/mdev = 0.431/0.447/0.475/0.019 ms
+```
+как видно, что после выключения eth1 активным стал eth2 и пинги при этом не прекратились
+
+
