@@ -24,6 +24,7 @@ eth0             UP             52:54:00:4d:77:d3 <BROADCAST,MULTICAST,UP,LOWER_
 eth1             UP             08:00:27:30:db:f6 <BROADCAST,MULTICAST,UP,LOWER_UP>
 eth2             UP             08:00:27:e7:b5:0c <BROADCAST,MULTICAST,UP,LOWER_UP>
 eth1.10@eth1     UP             08:00:27:30:db:f6 <BROADCAST,MULTICAST,UP,LOWER_UP>
+
 [vagrant@testServer1 ~]$ ip --brief addr show
 lo               UNKNOWN        127.0.0.1/8 ::1/128
 eth0             UP             10.0.2.15/24 fe80::5054:ff:fe4d:77d3/64
@@ -47,6 +48,7 @@ eth0             UP             52:54:00:4d:77:d3 <BROADCAST,MULTICAST,UP,LOWER_
 eth1             UP             08:00:27:a2:8d:41 <BROADCAST,MULTICAST,UP,LOWER_UP>
 eth2             UP             08:00:27:b5:64:45 <BROADCAST,MULTICAST,UP,LOWER_UP>
 eth1.10@eth1     UP             08:00:27:a2:8d:41 <BROADCAST,MULTICAST,UP,LOWER_UP>
+
 [vagrant@testClient1 ~]$ ip --brief addr show
 lo               UNKNOWN        127.0.0.1/8 ::1/128
 eth0             UP             10.0.2.15/24 fe80::5054:ff:fe4d:77d3/64
@@ -70,6 +72,7 @@ eth0             UP             52:54:00:4d:77:d3 <BROADCAST,MULTICAST,UP,LOWER_
 eth1             UP             08:00:27:dd:b8:ca <BROADCAST,MULTICAST,UP,LOWER_UP>
 eth2             UP             08:00:27:05:36:1a <BROADCAST,MULTICAST,UP,LOWER_UP>
 eth1.20@eth1     UP             08:00:27:dd:b8:ca <BROADCAST,MULTICAST,UP,LOWER_UP>
+
 [vagrant@testServer2 ~]$ ip --brief addr show
 lo               UNKNOWN        127.0.0.1/8 ::1/128
 eth0             UP             10.0.2.15/24 fe80::5054:ff:fe4d:77d3/64
@@ -93,12 +96,14 @@ eth0             UP             52:54:00:4d:77:d3 <BROADCAST,MULTICAST,UP,LOWER_
 eth1             UP             08:00:27:77:ff:ce <BROADCAST,MULTICAST,UP,LOWER_UP>
 eth2             UP             08:00:27:d3:16:29 <BROADCAST,MULTICAST,UP,LOWER_UP>
 eth1.20@eth1     UP             08:00:27:77:ff:ce <BROADCAST,MULTICAST,UP,LOWER_UP>
+
 [vagrant@testClient2 ~]$ ip --brief addr show
 lo               UNKNOWN        127.0.0.1/8 ::1/128
 eth0             UP             10.0.2.15/24
 eth1             UP             192.168.5.5/24 fe80::a00:27ff:fe77:ffce/64
 eth2             UP             10.10.11.6/24 fe80::a00:27ff:fed3:1629/64
 eth1.20@eth1     UP             10.10.10.254/24 fe80::a00:27ff:fe77:ffce/64
+
 [vagrant@testClient2 ~]$ ping 10.10.10.1
 PING 10.10.10.1 (10.10.10.1) 56(84) bytes of data.
 64 bytes from 10.10.10.1: icmp_seq=1 ttl=64 time=0.403 ms
@@ -137,6 +142,7 @@ Duplex: full
 Link Failure Count: 0
 Permanent HW addr: 08:00:27:eb:e6:d6
 Slave queue ID: 0
+
 [root@inetRouter vagrant]# cat /etc/sysconfig/network-scripts/ifcfg-bond0
 DEVICE=bond0
 NAME=bond0
@@ -178,6 +184,7 @@ Duplex: full
 Link Failure Count: 0
 Permanent HW addr: 08:00:27:26:c9:db
 Slave queue ID: 0
+
 [root@centralRouter vagrant]# cat /etc/sysconfig/network-scripts/ifcfg-bond0
 DEVICE=bond0
 NAME=bond0
@@ -198,6 +205,7 @@ GATEWAY=10.10.1.1
 выключим eth1 на inetRouter
 ```ruby
 [root@inetRouter vagrant]# ip link set eth1 down
+
 [root@inetRouter vagrant]# cat /proc/net/bonding/bond0
 Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
 
